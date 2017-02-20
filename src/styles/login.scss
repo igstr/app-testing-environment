@@ -1,0 +1,19 @@
+.login-dialog, .register-dialog {
+  width: 320px;
+  margin: 0 auto;
+
+  h2 {
+    margin-top: 10px;
+    margin-bottom: 24px;
+    font-size: 20px;
+  }
+  hr {
+    border-color: #dcdcdc;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .btn-submit {
+    margin-top: 12px;
+  }
+}

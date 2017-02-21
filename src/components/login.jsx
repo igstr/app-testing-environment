@@ -1,10 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
+import $ from 'jquery';
 import '../styles/login.scss';
 
 export default class extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: ""
+    };
+
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   handleLoginClick () {
-    console.log('login');
+    $.ajax({
+      url: globals.API_URI + "login",
+      data: this.state,
+    })
+    .done(data => {
+      console.log(data);
+    });
   }
 
   render () {
@@ -13,14 +42,28 @@ export default class extends React.Component {
         <div className="login-dialog well">
           <h2>Please login</h2>
           <hr/>
-          <form id="login-form" noValidate="novalidate">
+          <form className="login-form" noValidate="novalidate">
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="text" className="form-control" id="email" name="email" value="" title="Please enter you email"/>
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                name="email"
+                title="Please enter you email"
+                value={this.state.email}
+                onChange={this.handleInputChange} />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input type="password" className="form-control" id="password" name="password" value="" title="Please enter your password"/>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                name="password"
+                title="Please enter your password"
+                value={this.state.password}
+                onChange={this.handleInputChange} />
             </div>
             <div id="login-error-msg" className="alert alert-danger hide">Wrong username or password</div>
             <div className="checkbox">

@@ -14,6 +14,12 @@ module.exports = {
     publicPath: "/public/"
   },
 
+  plugins: [
+    new webpack.ProvidePlugin({
+      'globals': path.join(__dirname, "src", "globals")
+    })
+  ],
+
   module: {
     loaders: [
     { test: /\.jsx$|\.es6$|\.js$/,

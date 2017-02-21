@@ -17,7 +17,10 @@ module.exports = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      'globals': path.join(__dirname, "src", "globals")
+    })
   ],
 
   module: {

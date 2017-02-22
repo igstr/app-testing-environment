@@ -38,7 +38,7 @@ export default class extends React.Component {
 
   render () {
     return (
-      <div className="row">
+      <div className="container">
         <div className="login-dialog well">
           <h2>Please login</h2>
           <hr/>

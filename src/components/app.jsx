@@ -17,10 +17,6 @@ $.ajaxSetup({
 
 export default class extends React.Component {
   render () {
-    return (
-      <div className="container">
-        {this.props.children}
-      </div>
-    );
+    return this.props.children;
   }
 }

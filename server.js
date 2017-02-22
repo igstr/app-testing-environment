@@ -3,7 +3,6 @@ const express = require('express');
 const session = require('express-session');
 const routes = require('./src/routes/index');
 const app = express();
-const dotenv = require('dotenv').config();
 
 if (process.env.NODE_ENV !== 'production') {
   const webpack = require('webpack');
@@ -11,6 +10,8 @@ if (process.env.NODE_ENV !== 'production') {
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const config = require('./webpack.dev.config.js');
   const compiler = webpack(config);
+
+  require('dotenv').config();
 
   app.use(webpackHotMiddleware(compiler));
   app.use(webpackDevMiddleware(compiler, {

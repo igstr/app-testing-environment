@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Missing environment variable: MONGODB_URI');

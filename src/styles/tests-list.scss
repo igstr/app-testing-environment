@@ -1,0 +1,22 @@
+.tests-list {
+  padding: 0;
+
+  .test-item {
+    list-style-type: none;
+    display: block;
+    margin-top: 5px;
+    font-size: 16px;
+    a {
+      padding: 15px;
+      height: 100%;
+      width: 100%;
+      display: block;
+    }
+    a:hover, a:active, a:focus {
+      text-decoration: none;
+    }
+  }
+  .test-item:hover {
+    background-color: #eee;
+  }
+}

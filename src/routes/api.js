@@ -40,4 +40,80 @@ router.post('/login/', (req, res) => {
 
 });
 
+router.post('/register/', (req, res) => {
+  if (!req.body) {
+    return res.sendStatus(400);
+  }
+
+  const Account = mongoose.model('Account');
+  const sess = req.session;
+  const email = req.body.email.toLowerCase();
+
+  new Promise((resolve, reject) => {
+    // Check if request data is valid
+    if (req.body.password != req.body.passwordConfirm) {
+      reject({
+        data: null,
+        msg: "Invalid request data. Passwords do not match"
+      });
+    } else {
+      resolve();
+    }
+  })
+  .then(() => {
+    // Check if there's an account with such email
+    return new Promise((resolve, reject) => {
+      Account.findOne({ email: email })
+      .exec()
+      .then((doc) => {
+        if (doc) {
+          reject({
+            data: null,
+            msg: "Such account allready exists"
+          });
+        } else {
+          resolve();
+        }
+      });
+    });
+  })
+  .then(() => {
+    // Try to register new account
+    const account = new Account({
+      fullname: req.body.fullname,
+      email: email,
+      password: md5(req.body.password)
+    });
+
+    return new Promise((resolve, reject) => {
+      account.save((err, result) => {
+        if (err) {
+          reject({
+            data: null,
+            msg: "Account couldn't be registered"
+          });
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  })
+  .then((result) => {
+    sess.identity = result.identity;
+    res.send({
+      "status": "success",
+      "data": null,
+      "message": null
+    });
+  })
+  .catch((err) => {
+    res.send({
+      "status": "error",
+      "data": err.data,
+      "message": err.msg
+    });
+  });
+
+});
+
 module.exports = router;

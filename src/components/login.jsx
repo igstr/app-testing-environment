@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Router, Link, browserHistory } from 'react-router';
 import $ from 'jquery';
 import '../styles/login.scss';
 
@@ -32,7 +32,10 @@ export default class extends React.Component {
       data: this.state,
     })
     .done(data => {
-      console.log(data);
+      if ('success' == data.status) {
+        localStorage.account = JSON.stringify(data.data.account);
+        browserHistory.push('/dashboard');
+      }
     });
   }
 

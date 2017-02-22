@@ -26,7 +26,12 @@ router.post('/login/', (req, res) => {
       sess.identity = doc._id;
       res.send({
         "status": "success",
-        "data": null,
+        "data": {
+          account: {
+            fullname: doc.fullname,
+            email: doc.email
+          }
+        },
         "message": null
       });
     } else {
@@ -38,6 +43,25 @@ router.post('/login/', (req, res) => {
     }
   });
 
+});
+
+router.post('/logout/', (req, res) => {
+  const sess = req.session;
+
+  if (!sess.identity) {
+    res.send({
+      "status": "error",
+      "data": null,
+      "message": "Please login to logout"
+    });
+  } else {
+    sess.destroy();
+    res.send({
+      "status": "success",
+      "data": null,
+      "message": null
+    });
+  }
 });
 
 router.post('/register/', (req, res) => {

@@ -119,7 +119,7 @@ router.post('/register/', (req, res) => {
     });
   })
   .then((result) => {
-    sess.identity = result.identity;
+    sess.identity = result._id;
     res.send({
       "status": "success",
       "data": null,

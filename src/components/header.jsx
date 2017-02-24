@@ -6,7 +6,7 @@ import $ from 'jquery';
 export default class extends React.Component {
   static propTypes = {
     account: React.PropTypes.object,
-    onLogOut: React.PropTypes.func.isRequired,
+    onLogOut: React.PropTypes.func,
     navLinks: React.PropTypes.arrayOf(React.PropTypes.object)
   }
 
@@ -25,16 +25,6 @@ export default class extends React.Component {
     ]
   }
 
-  constructor(props) {
-    super(props);
-
-    this.handleLogOutClick = this.handleLogOutClick.bind(this);
-  }
-
-  handleLogOutClick() {
-    this.props.onLogOut();
-  }
-
   handleLogInClick() {
     browserHistory.push('/login');
   }
@@ -43,7 +33,7 @@ export default class extends React.Component {
     // Generate log in or log out button
     const logInOutBtn = this.props.account ?
       <li>
-        <a href="javascript:;" onClick={ this.handleLogOutClick }>
+        <a href="javascript:;" onClick={ this.props.onLogOut }>
           <span className="glyphicon glyphicon-log-out"></span> Log out
         </a>
       </li>:

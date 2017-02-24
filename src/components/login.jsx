@@ -4,6 +4,9 @@ import $ from 'jquery';
 import '../styles/login.scss';
 
 export default class extends React.Component {
+  static propTypes = {
+    onLogIn: React.PropTypes.func
+  }
 
   constructor(props) {
     super(props);
@@ -33,7 +36,7 @@ export default class extends React.Component {
     })
     .done(data => {
       if ('success' == data.status) {
-        localStorage.account = JSON.stringify(data.data.account);
+        this.props.onLogIn(data.data);
         browserHistory.push('/');
       }
     });

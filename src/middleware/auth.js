@@ -10,6 +10,7 @@ const auth = (req, res, next) => {
   if (!sess.identity) return next();
 
   Account.findOne({ _id: sess.identity })
+  .select({ _id: 0 })
   .exec()
   .then((doc) => {
     if (doc) {

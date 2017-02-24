@@ -41,6 +41,22 @@ router.post('/login/', (req, res) => {
 
 });
 
+router.get('/account', (req, res) => {
+  if (req.account) {
+    res.send({
+      "status": "success",
+      "data": req.account,
+      "message": null
+    });
+  } else {
+    res.send({
+      "status": "error",
+      "data": null,
+      "message": "Client must be logged in to access this data"
+    });
+  }
+});
+
 router.post('/logout/', (req, res) => {
   const sess = req.session;
 

@@ -5,25 +5,50 @@ import '../styles/tests-list.scss';
 
 export default class TestsList extends React.Component {
   static propTypes = {
-    testsTitles: React.PropTypes.arrayOf(React.PropTypes.string)
+    tests: React.PropTypes.arrayOf(React.PropTypes.object),
+    onItemClick: React.PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    testsTitles: [
-      'Ancient history test',
-      'Web developer ninja skills test',
-      'Overall knowledge test',
-      'Philosophy of life in the galaxy test',
+    tests: [
+      {
+        _id: 1,
+        title: "x86 architecture test",
+      },
+      {
+        _id: 2,
+        title: "Web developer ninja skills test",
+      },
+      {
+        _id: 3,
+        title: "Overall knowledge test"
+      },
+      {
+        _id: 4,
+        title: "Object-oriented programming in Java test"
+      }
     ]
   }
 
   constructor(props) {
     super(props);
+
+    this.onItemClick = this.onItemClick.bind(this);
+  }
+
+  onItemClick(id) {
+    this.props.onItemClick(id);
   }
 
   render() {
-    const listItems = this.props.testsTitles.map((title, index) => {
-      return <li className="test-item" key={ "test-item-" + index }><a href="javascript:;">{ title }</a></li>
+    const listItems = this.props.tests.map((test) => {
+      return(
+        <li className="test-item" key={ test._id }>
+          <a href="javascript:;" onClick={ this.onItemClick.bind(this, test._id) }>
+            { test.title }
+          </a>
+        </li>
+      );
     });
 
     return(

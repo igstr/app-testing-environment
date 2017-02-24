@@ -30,3 +30,4 @@ process.on('SIGINT', () => {
 
 // Let mongoose store all models
 require('../models/account');
+require('../models/test');

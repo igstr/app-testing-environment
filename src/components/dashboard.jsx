@@ -67,7 +67,9 @@ export default class extends React.Component {
       <div>
         <Header
           account={ this.state.account }
-          onLogOut={ this.onLogOut } />
+          onLogOut={ this.onLogOut }
+          navLinks={[]}
+          />
         <div className="container">
           <div className="col-sm-8 col-sm-offset-2">
             { testList }

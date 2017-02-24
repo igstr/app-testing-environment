@@ -6,7 +6,23 @@ import $ from 'jquery';
 export default class extends React.Component {
   static propTypes = {
     account: React.PropTypes.object,
-    onLogOut: React.PropTypes.func.isRequired
+    onLogOut: React.PropTypes.func.isRequired,
+    navLinks: React.PropTypes.arrayOf(React.PropTypes.object)
+  }
+
+  static defaultProps = {
+    navLinks: [
+      {
+        text: "Link 1",
+        uri: "/link1",
+        active: true
+      },
+      {
+        text: "Link 2",
+        uri: "/link2",
+        active: false
+      }
+    ]
   }
 
   constructor(props) {
@@ -24,6 +40,7 @@ export default class extends React.Component {
   }
 
   render() {
+    // Generate log in or log out button
     const logInOutBtn = this.props.account ?
       <li>
         <a href="javascript:;" onClick={ this.handleLogOutClick }>
@@ -36,6 +53,16 @@ export default class extends React.Component {
         </a>
       </li>;
 
+    // Generate navigation links
+    const navLinks = this.props.navLinks.map((link) => {
+      const className = link.active ? "active" : "";
+      return (
+        <li className={ className } key={ this.props.navLinks.indexOf(link) }>
+          <Link to={ link.uri }>{ link.text }</Link>
+        </li>
+      );
+    });
+
     return(
       <nav className="navbar navbar-inverse">
         <div className="container-fluid">
@@ -43,7 +70,7 @@ export default class extends React.Component {
             <Link to="/" className="navbar-brand">Testing environment</Link>
           </div>
           <ul className="nav navbar-nav">
-            <li className="active"><Link to="/dashboard">Dashboard</Link></li>
+            { navLinks }
           </ul>
           <ul className="nav navbar-nav navbar-right">
             { logInOutBtn }

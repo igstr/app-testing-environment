@@ -34,7 +34,7 @@ export default class extends React.Component {
     .done(data => {
       if ('success' == data.status) {
         localStorage.account = JSON.stringify(data.data.account);
-        browserHistory.push('/dashboard');
+        browserHistory.push('/');
       }
     });
   }

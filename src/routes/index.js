@@ -5,7 +5,7 @@ const apiRouter = require('./api');
 router.use('/api/', apiRouter);
 
 router.get('*', (req, res) => {
-  res.render('index', { title: "Welcome to Aperture Science" });
+  res.render('index', { title: "" });
 });
 
 module.exports = router;

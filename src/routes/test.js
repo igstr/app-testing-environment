@@ -10,9 +10,10 @@ router.get('/:id?', (req, res) => {
   .select({ questions: 0, __v: 0 })
   .exec()
   .then((docs) => {
+    const data = req.params.id ? docs[0] : docs;
     res.send({
       "status": "success",
-      "data": docs,
+      "data": data,
       "message": null
     });
   })

@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './components/app.jsx';
 import Login from './components/login.jsx';
 import Dashboard from './components/dashboard.jsx';
-import NotFoundPage from './components/not-found-page.jsx';
+import ErrorPage from './components/error-page.jsx';
 
 render(
   <Router history={browserHistory}>
@@ -12,7 +12,7 @@ render(
       <IndexRoute component={Dashboard} />
       <Route path="login" component={Login}/>
     </Route>
-    <Route path="*" component={NotFoundPage} />
+    <Route path="*" component={ErrorPage} errorMsg="Page not found." />
   </Router>,
   document.getElementById('root')
 );

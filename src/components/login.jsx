@@ -37,7 +37,9 @@ export default class extends React.Component {
     .done(data => {
       if ('success' == data.status) {
         this.props.onLogIn(data.data);
-        browserHistory.push('/');
+        const locState = this.props.location.state;
+        const path = locState && locState.nextPath ? locState.nextPath : '/';
+        browserHistory.push(path);
       }
     });
   }

@@ -35,6 +35,12 @@ export default class extends React.Component {
   }
 
   onStartClick() {
+    if (!this.props.account) {
+      return browserHistory.push({
+        pathname: "/login",
+        state: { nextPath: this.props.location.pathname }
+      });
+    }
   }
 
   render() {

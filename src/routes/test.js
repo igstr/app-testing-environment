@@ -18,8 +18,8 @@ router.get('/:id?', (req, res) => {
     });
   })
   .catch((err) => {
-    const msg = req.params.id ? 'Couldn\'t retrieve test' : 'Couldn\'t retrieve tests';
-    res.status(500).send({
+    const msg = req.params.id ? 'Couldn\'t retrieve test. Please try again later.' : 'Couldn\'t retrieve tests';
+    res.send({
       "status": "error",
       "data": null,
       "message": msg

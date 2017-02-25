@@ -10,6 +10,10 @@ const schema = new Schema({
     type: Number,
     default: -1
   },
+  description: {
+    type: String,
+    required: true
+  },
   questions: {
     type: [Schema.Types.ObjectId]
   },

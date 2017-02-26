@@ -30,7 +30,12 @@ export default class extends React.Component {
     .then(data => {
       if ('success' == data.status) {
         this.setState({ account: data.data });
+      } else if ('error') {
+        this.setState({ account: null });
       }
+    })
+    .fail(() => {
+      this.setState({ account: null });
     });
 
     this.onLogIn = this.onLogIn.bind(this);

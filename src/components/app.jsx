@@ -19,8 +19,9 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      account: null
+    this.state = { };
+    if (localStorage.account) {
+      this.state.account = JSON.parse(localStorage.account);
     }
 
     $.get({
@@ -36,6 +37,10 @@ export default class extends React.Component {
     this.onLogOut = this.onLogOut.bind(this);
   }
 
+  componentDidUpdate() {
+    localStorage.account = JSON.stringify(this.state.account);
+  }
+
   onLogIn(account) {
     this.setState({ account: account });
   }
@@ -46,6 +51,7 @@ export default class extends React.Component {
     })
     .then(data => {
       if ('success' == data.status) {
+        localStorage.removeItem('account');
         this.setState({ account: null });
       }
     });

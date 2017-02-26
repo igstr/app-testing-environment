@@ -48,7 +48,7 @@ router.get('/account', (req, res) => {
       "data": {
         email: req.account.email,
         fullname: req.account.fullname
-      }
+      },
       "message": null
     });
   } else {

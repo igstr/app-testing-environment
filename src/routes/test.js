@@ -27,30 +27,12 @@ router.get('/:id?', (req, res) => {
   });
 });
 
-router.put('/', (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({
-      "status": "error",
-      "data": null,
-      "message": "Missing request body."
-    });
-  }
-
-  if (!req.account) {
-    return res.status(401).send({
-      "status": "error",
-      "data": null,
-      "message": "Client must be logged in to create new tests."
-    });
-  }
-
-  if ("admin" != req.account.role) {
-    return res.status(401).send({
-      "status": "error",
-      "data": null,
-      "message": "Client is not authorized to create new tests."
-    });
-  }
+router.put(
+  '/',
+  requireRequestBody,
+  requireClientLogIn,
+  requireAdminRole,
+  (req, res) => {
 
   const Test = mongoose.model('Test');
   const test = new Test({
@@ -110,30 +92,11 @@ router.get('/:testId/question', (req, res) => {
   });
 });
 
-router.put('/:testId/question', (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({
-      "status": "error",
-      "data": null,
-      "message": "Missing request body."
-    });
-  }
-
-  if (!req.account) {
-    return res.status(401).send({
-      "status": "error",
-      "data": null,
-      "message": "Client must be logged in to create new questions."
-    });
-  }
-
-  if ("admin" != req.account.role) {
-    return res.status(401).send({
-      "status": "error",
-      "data": null,
-      "message": "Client is not authorized to create new questions."
-    });
-  }
+router.put('/:testId/question',
+  requireRequestBody,
+  requireClientLogIn,
+  requireAdminRole,
+  (req, res) => {
 
   const Question = mongoose.model('Question');
   const Test = mongoose.model('Test');
@@ -184,5 +147,50 @@ router.put('/:testId/question', (req, res) => {
   });
 
 });
+
+/**
+ * Checks if request body exists and if body is not an empty object
+ */
+function requireRequestBody(req, res, next) {
+  if (!req.body
+    || (Object.keys(req.body).length === 0 && req.body.constructor === Object)
+  ) {
+    return res.status(400).send({
+      "status": "error",
+      "data": null,
+      "message": "Missing request body."
+    });
+  }
+  return next();
+}
+
+/**
+ * Require client to be logged in
+ */
+function requireClientLogIn(req, res, next) {
+  if (!req.account) {
+    return res.status(401).send({
+      "status": "error",
+      "data": null,
+      "message": "Client must be logged in."
+    });
+  }
+  return next();
+}
+
+/**
+ * Require Admin role permissions
+ */
+function requireAdminRole(req, res, next) {
+  if ("admin" != req.account.role) {
+    return res.status(401).send({
+      "status": "error",
+      "data": null,
+      "message": "Client is not authorized."
+    });
+  }
+  return next();
+}
+
 
 module.exports = router;

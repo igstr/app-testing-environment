@@ -21,6 +21,18 @@ export default class extends React.Component {
     this.onSubmitClick = this.onSubmitClick.bind(this);
   }
 
+  componentDidUpdate() {
+    const testId = this.props.routeParams.testId;
+    localStorage[testId] = JSON.stringify(this.state);
+
+    if (!this.props.account) {
+      browserHistory.push({
+        pathname: "/login",
+        state: { nextPath: this.props.location.pathname }
+      });
+    }
+  }
+
   onSubmitClick() {
   }
 

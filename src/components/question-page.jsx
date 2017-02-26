@@ -57,6 +57,13 @@ export default class extends React.Component {
   componentDidUpdate() {
     const testId = this.props.routeParams.testId;
     localStorage[testId] = JSON.stringify(this.state);
+
+    if (!this.props.account) {
+      browserHistory.push({
+        pathname: "/login",
+        state: { nextPath: this.props.location.pathname }
+      });
+    }
   }
 
   /**

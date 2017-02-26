@@ -32,3 +32,4 @@ process.on('SIGINT', () => {
 require('../models/account');
 require('../models/test');
 require('../models/question');
+require('../models/assessment');

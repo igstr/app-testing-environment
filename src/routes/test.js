@@ -148,6 +148,45 @@ router.put('/:testId/question',
 
 });
 
+router.post(
+  '/:testId/submit',
+  requireRequestBody,
+  requireClientLogIn,
+  (req, res) => {
+    const Test = mongoose.model('Test');
+
+    Test.findById(req.params.testId)
+    .select({ _id: 1 })
+    .exec()
+    .then(doc => {
+      if (!doc) throw new Error('Couldn\'t find test with id' + req.params.testId);
+      const Assessment = mongoose.model('Assessment');
+      return new Assessment({
+        accountId: req.account._id,
+        testId: doc._id,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        answers: req.body.answers
+      })
+      .save();
+    })
+    .then(doc => {
+      if (!doc) throw new Error('Assessment couldn\'t be saved');
+      return res.send({
+        "status": "success",
+        "data": null,
+        "message": null
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        "status": "error",
+        "data": null,
+        "message": "Test submission couldn't be saved"
+      });
+    });
+});
+
 /**
  * Checks if request body exists and if body is not an empty object
  */

@@ -34,6 +34,36 @@ export default class extends React.Component {
   }
 
   onSubmitClick() {
+    const self = this;
+
+    if (!this.state.endDate) {
+      const newState = this.state;
+      newState.endDate = Date.now();
+      this.setState(newState);
+    }
+
+    const testId = this.props.routeParams.testId;
+    const data = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      answers: this.state.answers
+    };
+
+    $.ajax({
+      url: globals.API_URI + "test/" + testId + "/submit",
+      data: data
+    })
+    .then(data => {
+      if ('success' == data.status) {
+        const newState = self.state;
+        newState.answers = null;
+        newState.startDate = null;
+        newState.endDate = null;
+        self.setState(newState);
+        const testRoute = '/test/' + this.props.routeParams.testId;
+        browserHistory.push(testRoute + '/results');
+      }
+    });
   }
 
   render() {

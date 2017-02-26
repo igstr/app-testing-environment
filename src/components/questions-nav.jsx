@@ -9,6 +9,7 @@ export default class extends React.Component {
     prevBtnText: React.PropTypes.string,
     nextBtnLink: React.PropTypes.string,
     prevBtnLink: React.PropTypes.string,
+    prevBtnDisabled: React.PropTypes.bool,
     nextBtnOnClick: React.PropTypes.func
   }
 
@@ -18,7 +19,8 @@ export default class extends React.Component {
     const testRoute = '/test/' + props.routeParams.testId;
 
     const prevBtnLink = props.prevBtnLink ? props.prevBtnLink : testRoute + '/' + questionIndex;
-    const prevBtnClass = questionIndex == 0 ? "btn btn-default btn-sm disabled" : "btn btn-default btn-sm";
+    const prevBtnDisabled = questionIndex == 0 || this.props.prevBtnDisabled ? ' disabled' : '';
+    const prevBtnClass = "btn btn-default btn-sm" + prevBtnDisabled;
     const prevBtnText = props.prevBtnText ? props.prevBtnText : 'Previous';
     const previousBtn =
       <Link

@@ -26,7 +26,8 @@ export default class extends React.Component {
 
   render() {
     const testRoute = '/test/' + this.props.routeParams.testId;
-    const prevBtnLink = testRoute + '/' + this.state.questions.length
+    const prevBtnLink = testRoute + '/' + this.state.questions.length;
+    const prevBtnDisabled = this.state.endDate ? true : false;
 
     return (
       <div>
@@ -44,6 +45,7 @@ export default class extends React.Component {
               questions={ this.state.questions }
               routeParams={ this.props.routeParams }
               prevBtnText="Go back"
+              prevBtnDisabled={ prevBtnDisabled }
               prevBtnLink={ prevBtnLink }
               nextBtnLink={ this.props.location.pathname }
               nextBtnOnClick={ this.onSubmitClick }

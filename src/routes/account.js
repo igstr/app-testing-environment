@@ -45,7 +45,10 @@ router.get('/account', (req, res) => {
   if (req.account) {
     res.send({
       "status": "success",
-      "data": req.account,
+      "data": {
+        email: req.account.email,
+        fullname: req.account.fullname
+      }
       "message": null
     });
   } else {

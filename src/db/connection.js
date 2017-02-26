@@ -8,8 +8,8 @@ if (!process.env.MONGODB_URI) {
   throw new Error('Missing environment variable: MONGODB_URI');
 }
 
-// Use native promises
-mongoose.Promise = global.Promise;
+// Use Bluebird promises
+mongoose.Promise = require('bluebird');
 
 mongoose.connect(process.env.MONGODB_URI).then(
   () => {

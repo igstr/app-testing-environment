@@ -14,9 +14,24 @@ export default class extends React.Component {
     super(props);
 
     this.state = { };
+    const testId = this.props.routeParams.testId;
+    const testState = localStorage[testId] ? JSON.parse(localStorage[testId]) : null;
+
+    // Check if test have been started
+    if (testState && testState.startDate) {
+      let path = this.props.location.pathname;
+      if (testState.endDate) {
+        path += '/submit';
+      } else if (testState.currentQuestion) {
+        path += '/' + testState.currentQuestion;
+      } else {
+        path += '/1';
+      }
+      return browserHistory.push(path);
+    }
 
     $.get({
-      url: globals.API_URI + "test/" + this.props.routeParams.testId
+      url: globals.API_URI + "test/" + testId
     })
     .then((data) => {
       if ('success' == data.status) {
@@ -34,6 +49,11 @@ export default class extends React.Component {
     this.onStartClick = this.onStartClick.bind(this);
   }
 
+  componentDidUpdate() {
+    const testId = this.props.routeParams.testId;
+    localStorage[testId] = JSON.stringify(this.state);
+  }
+
   onStartClick() {
     if (!this.props.account) {
       return browserHistory.push({
@@ -41,10 +61,22 @@ export default class extends React.Component {
         state: { nextPath: this.props.location.pathname }
       });
     }
+
+    $.get({
+      url: globals.API_URI + "test/" + this.props.routeParams.testId + "/question"
+    })
+    .then(data => {
+      if ('success' == data.status) {
+        const newState = this.state;
+        newState.questions = data.data;
+        newState.startDate = Date.now();
+        this.setState(newState);
+        browserHistory.push(this.props.location.pathname + '/1');
+      }
+    });
   }
 
   render() {
-
     if (this.state.errorMsg) {
       return <ErrorPage errorMsg={ this.state.errorMsg } />;
     }
@@ -81,5 +113,4 @@ export default class extends React.Component {
       </div>
     );
   }
-
 }

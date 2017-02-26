@@ -15,7 +15,10 @@ const schema = new Schema({
     required: true
   },
   questions: {
-    type: [Schema.Types.ObjectId]
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: "Question"
+    }]
   },
   randomized: {
     type: Boolean,

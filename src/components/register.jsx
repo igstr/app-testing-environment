@@ -10,13 +10,16 @@ export default class extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       email: "",
-      password: ""
+      fullname: "",
+      password: "",
+      passwordConfirm: ""
     };
 
-    this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleRegisterClick = this.handleRegisterClick.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -30,21 +33,9 @@ export default class extends React.Component {
     });
   }
 
-  handleRegisterClick() {
-    const newLoc = {
-      pathname: '/register',
-      state: { }
-    };
-    const currentState = this.props.location.state;
-    if (currentState && currentState.nextPath) {
-      newLoc.state.nextPath = currentState.nextPath;
-    }
-    browserHistory.push(newLoc);
-  }
-
-  handleLoginClick() {
+  handleRegisterClick () {
     $.ajax({
-      url: globals.API_URI + "login",
+      url: globals.API_URI + "register",
       data: this.state,
     })
     .done(data => {
@@ -57,11 +48,23 @@ export default class extends React.Component {
     });
   }
 
+  handleLoginClick () {
+    const newLoc = {
+      pathname: '/login',
+      state: { }
+    };
+    const currentState = this.props.location.state;
+    if (currentState && currentState.nextPath) {
+      newLoc.state.nextPath = currentState.nextPath;
+    }
+    browserHistory.push(newLoc);
+  }
+
   render () {
     return (
       <div className="container">
         <div className="login-dialog well">
-          <h2>Please login</h2>
+          <h2>Registration form</h2>
           <hr/>
           <form className="login-form" noValidate="novalidate">
             <div className="form-group">
@@ -71,8 +74,19 @@ export default class extends React.Component {
                 className="form-control"
                 id="email"
                 name="email"
-                title="Please enter you email"
+                title="Please enter your email"
                 value={this.state.email}
+                onChange={this.handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="fullname">Full name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="fullname"
+                name="fullname"
+                title="Please enter your full name"
+                value={this.state.fullname}
                 onChange={this.handleInputChange} />
             </div>
             <div className="form-group">
@@ -86,19 +100,25 @@ export default class extends React.Component {
                 value={this.state.password}
                 onChange={this.handleInputChange} />
             </div>
-            <div id="login-error-msg" className="alert alert-danger hide">Wrong username or password</div>
-            <div className="checkbox">
-              <label>
-                <input type="checkbox" name="remember" id="remember"/>Remember me
-              </label>
+            <div className="form-group">
+              <label htmlFor="passwordConfirm">Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                title="Please re-enter your password"
+                value={this.state.passwordConfirm}
+                onChange={this.handleInputChange} />
             </div>
-            <button type="button" onClick={this.handleLoginClick} className="btn btn-success btn-block">Login</button>
+            <div id="login-error-msg" className="alert alert-danger hide">Wrong username or password</div>
+            <button type="button" onClick={this.handleRegisterClick} className="btn btn-success btn-block">Register</button>
             <div className="text-center">
               <span style={{ display: "block", margin: "5px 0" }}>or</span>
               <Link
-                onClick={ this.handleRegisterClick }
+                onClick={ this.handleLoginClick }
                 className="text-primary">
-                Register
+                  Login
               </Link>
             </div>
           </form>
@@ -107,3 +127,4 @@ export default class extends React.Component {
     );
   }
 }
+

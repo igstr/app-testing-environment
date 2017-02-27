@@ -117,38 +117,31 @@ router.post('/register/', (req, res) => {
     });
   })
   .then(() => {
-    // Try to register new account
-    const account = new Account({
+    // Try to save new account
+    return new Account({
       fullname: req.body.fullname,
       email: email,
       password: md5(req.body.password)
-    });
-
-    return new Promise((resolve, reject) => {
-      account.save((err, result) => {
-        if (err) {
-          reject({
-            data: null,
-            msg: "Account couldn't be registered"
-          });
-        } else {
-          resolve(result);
-        }
-      });
-    });
+    })
+    .save();
   })
-  .then((result) => {
-    sess.identity = result._id;
+  .then(doc => {
+    if (!doc) throw new Error('Account couldn\'t be registered');
+
+    sess.identity = doc._id;
     res.send({
       "status": "success",
-      "data": null,
+      "data": {
+        email: doc.email,
+        fullname: doc.fullname
+      },
       "message": null
     });
   })
-  .catch((err) => {
+  .catch(err => {
     res.send({
       "status": "error",
-      "data": err.data,
+      "data": null,
       "message": err.msg
     });
   });

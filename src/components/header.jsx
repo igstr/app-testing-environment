@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import '../styles/header.scss';
-import $ from 'jquery';
 
 export default class extends React.Component {
   static propTypes = {
@@ -25,10 +24,6 @@ export default class extends React.Component {
     ]
   }
 
-  handleLogInClick() {
-    browserHistory.push('/login');
-  }
-
   render() {
     // Generate log in or log out button
     const logInOutBtn = this.props.account ?
@@ -38,9 +33,13 @@ export default class extends React.Component {
         </a>
       </li>:
       <li>
-        <a href="javascript:;" onClick={ this.handleLogInClick }>
+        <Link
+          to={{
+            pathname: '/login',
+            state: { nextPath: window.location.pathname }
+          }}>
           <span className="glyphicon glyphicon-log-in"></span> Log In
-        </a>
+        </Link>
       </li>;
 
     // Generate navigation links
